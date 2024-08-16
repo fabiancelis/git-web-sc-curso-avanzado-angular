@@ -1,0 +1,64 @@
+<div class="container">
+    <button type="button" (click)="cargarPefil()" >Cargar Perfil</button>
+    <div class="row">
+        <!-- Definicion de la tabla con el origen de datos (dataSource) -->
+        <mat-table #table [dataSource]="dataSource" multiTemplateDataRows>
+            <!-- Definicion dinamica de cada columna encabezado/valor definido en columnSchema -->
+            <ng-container [matColumnDef]="col.key" *ngFor="let col of columnSchema" [ngSwitch]="col.key">
+                <div *ngSwitchCase="'nombre_completo'">
+                    <mat-header-cell *matHeaderCellDef>{{col.label}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row;">{{row[col.key]}}</mat-cell>
+                </div>
+                <div *ngSwitchCase="'codigo_usuario'">
+                    <mat-header-cell *matHeaderCellDef>{{col.label}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row;">{{row[col.key]}}</mat-cell>
+                </div>
+                <div *ngSwitchCase="'nacionalidad'">
+                    <mat-header-cell *matHeaderCellDef>{{col.label}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row;">{{row[col.key]}}</mat-cell>
+                </div>
+                <div *ngSwitchCase="'cedula'">
+                    <mat-header-cell *matHeaderCellDef>{{col.label}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row;">{{row[col.key]}}</mat-cell>
+                </div>
+                <div *ngSwitchCase="'correo_electronico'">
+                    <mat-header-cell *matHeaderCellDef>{{col.label}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row;">{{row[col.key]}}</mat-cell>
+                </div>
+                <div *ngSwitchCase="'edad'">
+                    <mat-header-cell *matHeaderCellDef>{{col.label}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row;">{{row[col.key]}}</mat-cell>
+                </div>
+            </ng-container>
+
+            <ng-container matColumnDef="detalle">
+                <mat-cell *matCellDef="let detail; let j = dataIndex" [attr.colspan]="displayedColumnsHeaders.length">
+                    <mat-table [dataSource]="dataSource[j].permisos">
+                    
+                        <ng-container [matColumnDef]="'id'">
+                            <mat-header-cell *matHeaderCellDef>C&oacute;digo</mat-header-cell>
+                            <mat-cell *matCellDef="let rowDetalle">{{rowDetalle.cod}}</mat-cell>
+                        </ng-container>
+    
+                        <ng-container [matColumnDef]="'title'">
+                            <mat-header-cell *matHeaderCellDef>Descripci&oacute;n</mat-header-cell>
+                            <mat-cell *matCellDef="let rowDetalle">{{rowDetalle.title}}</mat-cell>
+                        </ng-container>
+    
+                        <!-- Se declara el uso de las filas -->
+                        <mat-header-row *matHeaderRowDef="['id', 'title']"></mat-header-row>
+                        <!-- Se declara el uso de los encabezados de la tabla -->
+                        <mat-row *matRowDef="let row; columns: ['id', 'title']"></mat-row>
+                    </mat-table>
+                </mat-cell>
+            </ng-container>
+            
+            <!-- Se declara el uso de las filas -->
+            <mat-header-row *matHeaderRowDef="displayedColumnsHeaders"></mat-header-row>
+            <!-- Se declara el uso de los encabezados de la tabla -->
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            <mat-row *matRowDef="let permiso; columns: ['detalle']"></mat-row>
+        </mat-table>
+        
+    </div>
+</div>
