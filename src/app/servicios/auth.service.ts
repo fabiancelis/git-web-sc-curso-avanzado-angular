@@ -7,6 +7,7 @@ import { environmet } from 'src/environments/environemt.development';
 })
 export class AuthService {
 
+
   constructor(
     private http: HttpClient,
   ) { }
@@ -26,4 +27,8 @@ export class AuthService {
   findPerfil() {
     return this.http.post(environmet.API+'consulta/usuarios', {});
   } 
+
+  refreshToken(payload: any) {
+    return this.http.post(environmet.API + 'auth/refreshToken', payload);
+  }
 }

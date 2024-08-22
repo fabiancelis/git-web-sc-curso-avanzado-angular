@@ -83,6 +83,7 @@ export class RegistroComponent implements OnInit {
   onSubmit() {
     console.log(this.formRegistro.valid)
     if(this.formRegistro.valid) {
+
       let usuario = {
         perfil: Object.assign(this.formRegistro.value, {
           permisos: this.seleccionados

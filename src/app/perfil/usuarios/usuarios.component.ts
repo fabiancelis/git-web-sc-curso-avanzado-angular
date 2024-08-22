@@ -30,6 +30,10 @@ const SCHEMA_TABLE = [
   {
     key: 'edad',
     label: 'Edad'
+  },
+  {
+    key: 'editar',
+    label: 'Editar'
   }
 ];
 
@@ -40,8 +44,9 @@ const SCHEMA_TABLE = [
 })
 export class UsuariosComponent implements OnInit {
 
-  displayedColumnsHeaders = SCHEMA_TABLE.map(x => x.key);
-  displayedColumns = SCHEMA_TABLE.map(x => x.key);
+  displayedColumnsHeaders: any;
+  displayedColumns: any;
+  usuario: any;
 
   columnSchema = SCHEMA_TABLE;
 
@@ -53,7 +58,9 @@ export class UsuariosComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
+    this.displayedColumnsHeaders = SCHEMA_TABLE.map(x => x.key);
+    this.displayedColumns = SCHEMA_TABLE.map(x => x.key);
+   this.usuario = JSON.parse(sessionStorage.getItem('perfil') || '{}');
   }
 
   cargarPefil() {
@@ -62,12 +69,30 @@ export class UsuariosComponent implements OnInit {
         
         JSON.parse(value.toString()).map((x: any )=> {
           this.dataSource.push(x);
-        })
-        
+        });
+
+        this.displayedColumns = this.displayedColumns.filter((e: any) => {
+          if(this.usuario.permisos.find((x: any) => x.id == 10) != undefined) {
+            return e != 'editar';
+          }
+          return true;
+        });
+
         this.dataSource = [...this.dataSource];
       },
     })
     
+  }
+
+  onEdit(value: any) {
+    console.log(value)
+    let editado = value == undefined || false ? true : !value;
+    this.dataSource = [...this.dataSource];
+    return editado;
+  }
+
+  onGuardar(){
+    console.log(this.dataSource);
   }
 
 }

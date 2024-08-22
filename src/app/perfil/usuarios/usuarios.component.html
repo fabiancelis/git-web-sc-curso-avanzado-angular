@@ -1,5 +1,6 @@
 <div class="container">
     <button type="button" (click)="cargarPefil()" >Cargar Perfil</button>
+    <button type="button" (click)="onGuardar()" >Guardar</button>
     <div class="row">
         <!-- Definicion de la tabla con el origen de datos (dataSource) -->
         <mat-table #table [dataSource]="dataSource" multiTemplateDataRows>
@@ -7,7 +8,10 @@
             <ng-container [matColumnDef]="col.key" *ngFor="let col of columnSchema" [ngSwitch]="col.key">
                 <div *ngSwitchCase="'nombre_completo'">
                     <mat-header-cell *matHeaderCellDef>{{col.label}}</mat-header-cell>
-                    <mat-cell *matCellDef="let row;">{{row[col.key]}}</mat-cell>
+                    <mat-cell *matCellDef="let row;" >
+                        <span [hidden]="row['editado'] !=undefined && row['editado'] == true">{{row[col.key]}}</span>
+                        <span [hidden]="row['editado'] == undefined || row['editado'] == false"><input matInput [(ngModel)]="row[col.key]" /></span>
+                    </mat-cell>
                 </div>
                 <div *ngSwitchCase="'codigo_usuario'">
                     <mat-header-cell *matHeaderCellDef>{{col.label}}</mat-header-cell>
@@ -28,6 +32,12 @@
                 <div *ngSwitchCase="'edad'">
                     <mat-header-cell *matHeaderCellDef>{{col.label}}</mat-header-cell>
                     <mat-cell *matCellDef="let row;">{{row[col.key]}}</mat-cell>
+                </div>
+                <div *ngSwitchCase="'editar'">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let row;">
+                        <button mat-icon-button type="button" (click)="row['editado'] = onEdit(row['editado'])"><mat-icon>edit</mat-icon></button>
+                    </mat-cell>
                 </div>
             </ng-container>
 
