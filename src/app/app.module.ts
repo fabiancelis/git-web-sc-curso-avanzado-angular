@@ -17,6 +17,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { ToastrModule } from 'ngx-toastr';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthInterceptor } from './auth.interceptor';
+import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
+import { MatMenuModule } from '@angular/material/menu';
+import { OverlayModule } from '@angular/cdk/overlay';
+
+export function onToken() {
+  console.log(sessionStorage.getItem('jwt'))
+  return sessionStorage.getItem('jwt');
+}
 
 @NgModule({
   declarations: [
@@ -38,13 +46,23 @@ import { AuthInterceptor } from './auth.interceptor';
     MatIconModule,
     FormsModule,
     ToastrModule.forRoot(),
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: onToken,
+        allowedDomains: ['148.113.191.183:9325'],
+        disallowedRoutes: ['http://148.113.191.183:9325/basicosw/consulta/usuarios']
+      }
+    }),
+    MatMenuModule,
+    OverlayModule
   ],
   exports: [
     PermisoDisponiblePipe
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

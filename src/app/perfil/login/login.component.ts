@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Usuario } from 'src/app/dominio/usuario';
 import { AuthService } from 'src/app/servicios/auth.service';
 
@@ -13,7 +14,8 @@ export class LoginComponent {
 
   constructor(
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
 
   }
@@ -31,7 +33,7 @@ export class LoginComponent {
             this.router.navigateByUrl('perfil');
           }
           else {
-            
+            this.toastr.warning(value['mensaje'])
           }
       },
     })

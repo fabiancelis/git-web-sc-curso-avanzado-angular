@@ -29,6 +29,6 @@ export class AuthService {
   } 
 
   refreshToken(payload: any) {
-    return this.http.post(environmet.API + 'auth/refreshToken', payload);
+    return this.http.post(environmet.API + 'auth/refreshtoken', payload);
   }
 }

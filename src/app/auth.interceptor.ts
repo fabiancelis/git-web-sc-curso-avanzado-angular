@@ -4,28 +4,34 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
+  HttpResponse
 } from '@angular/common/http';
 import { catchError, map, Observable, switchMap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from './servicios/auth.service';
+import { LoaderService } from './servicios/loader.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private _loader: LoaderService
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = sessionStorage.getItem('jwt');
+    const refreshToken = sessionStorage.getItem('refreshToken');
 
     let authRequest = request;
 
+    this._loader.setLoading(true, request.url);
+
     if(token) {
       authRequest = request.clone({
-        headers: request.headers.set('Authorization', 'Bearer ' + token)
+        headers: request.headers.set('Authorization', 'Bearer ' + token).append('Refresh',refreshToken || '')
       });
     }
     
@@ -33,7 +39,7 @@ export class AuthInterceptor implements HttpInterceptor {
     .handle(authRequest)
     .pipe(
       catchError((error: any) => {
-        console.log(error)
+        // console.log(error)
         if(error instanceof HttpErrorResponse && error.status == 401) {
           return this.handle401Error(authRequest, next);
         }
@@ -41,15 +47,16 @@ export class AuthInterceptor implements HttpInterceptor {
           sessionStorage.clear();
           this.router.navigateByUrl('perfil/login');
         }
-
-        return throwError(error);
+        this._loader.setLoading(false, request.url);
+        return throwError(() => error);
       })
     )
-    .pipe(
-      map<HttpEvent<any>, any>((evt: HttpEvent<any>) => {
-        return evt;
-      })
-    );
+    .pipe(map<HttpEvent<any>, any>((evt: HttpEvent<any>) => {
+      if (evt instanceof HttpResponse) {
+        this._loader.setLoading(false, request.url);
+      }
+      return evt;
+    }));
   }
 
   handle401Error(authRequest: HttpRequest<unknown>, next: HttpHandler) {
@@ -67,7 +74,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError(error => {
         sessionStorage.clear();
         this.router.navigateByUrl('perfil/login');
-        return throwError(new Error('Su session ha caducado'));
+        return throwError(() => new Error('Su session ha caducado'));
       })
     )
   }

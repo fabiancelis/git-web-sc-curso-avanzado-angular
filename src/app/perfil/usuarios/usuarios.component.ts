@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
 import { Perfil } from 'src/app/dominio/perfil';
 import { AuthService } from 'src/app/servicios/auth.service';
 
@@ -52,9 +55,16 @@ export class UsuariosComponent implements OnInit {
 
   dataSource: any[] = [];
 
+  jwt: string = '';
+
   constructor(
-    private auth: AuthService
-  ){}
+    private auth: AuthService,
+    private toastr: ToastrService,
+    private jwtService: JwtHelperService,
+    private router: Router
+  ){
+    this.jwt = sessionStorage.getItem('jwt') || '';
+  }
 
 
   ngOnInit(): void {
@@ -64,23 +74,34 @@ export class UsuariosComponent implements OnInit {
   }
 
   cargarPefil() {
-    this.auth.findPerfil().subscribe({
-      next:(value) => {
-        
-        JSON.parse(value.toString()).map((x: any )=> {
-          this.dataSource.push(x);
-        });
 
-        this.displayedColumns = this.displayedColumns.filter((e: any) => {
-          if(this.usuario.permisos.find((x: any) => x.id == 10) != undefined) {
-            return e != 'editar';
-          }
-          return true;
-        });
-
-        this.dataSource = [...this.dataSource];
-      },
-    })
+    // if(this.jwtService.isTokenExpired(this.jwt)) {
+    //   sessionStorage.clear();
+    //   this.router.navigateByUrl('perfil/login');
+    //   this.toastr.warning('Su sesion ha caducado');
+    // } 
+    // else {
+      this.auth.findPerfil().subscribe({
+        next:(value) => {
+          
+          JSON.parse(value.toString()).map((x: any )=> {
+            this.dataSource.push(x);
+          });
+  
+          this.displayedColumns = this.displayedColumns.filter((e: any) => {
+            if(this.usuario.permisos.find((x: any) => x.id == 10) != undefined) {
+              return e != 'editar';
+            }
+            return true;
+          });
+  
+          this.dataSource = [...this.dataSource];
+        },
+        error: (err) => {
+          this.toastr.warning(err.message);
+        },
+      })
+    // }
     
   }
 
