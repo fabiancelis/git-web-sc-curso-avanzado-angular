@@ -20,6 +20,8 @@ import { AuthInterceptor } from './auth.interceptor';
 import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { MatMenuModule } from '@angular/material/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { DatosComponent } from './shared/datos/datos.component';
+import { MatCardModule } from '@angular/material/card';
 
 export function onToken() {
   console.log(sessionStorage.getItem('jwt'))
@@ -30,7 +32,8 @@ export function onToken() {
   declarations: [
     AppComponent,
     RegistroComponent,
-    PermisoDisponiblePipe
+    PermisoDisponiblePipe,
+    DatosComponent
   ],
   imports: [
     BrowserModule,
@@ -55,10 +58,12 @@ export function onToken() {
       }
     }),
     MatMenuModule,
-    OverlayModule
+    OverlayModule,
+    MatCardModule
   ],
   exports: [
-    PermisoDisponiblePipe
+    PermisoDisponiblePipe,
+    DatosComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

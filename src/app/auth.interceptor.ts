@@ -73,6 +73,7 @@ export class AuthInterceptor implements HttpInterceptor {
       }),
       catchError(error => {
         sessionStorage.clear();
+        this._loader.setLoading(false, authRequest.url);
         this.router.navigateByUrl('perfil/login');
         return throwError(() => new Error('Su session ha caducado'));
       })

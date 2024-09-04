@@ -1,6 +1,6 @@
 <div class="container">
-    <button type="button" (click)="cargarPefil()" >Cargar Perfil</button>
-    <button type="button" (click)="onGuardar()" >Guardar</button>
+    <button mat-button type="button" (click)="cargarPefil()" >Cargar Perfil</button>
+    <button mat-button type="button" (click)="onGuardar()" >Guardar</button>
     <div class="row">
         <!-- Definicion de la tabla con el origen de datos (dataSource) -->
         <mat-table #table [dataSource]="dataSource" multiTemplateDataRows>

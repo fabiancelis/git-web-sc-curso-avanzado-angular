@@ -1,5 +1,5 @@
 .errors {
-  li {
+  :is(li) {
     color: red;
   }
 }

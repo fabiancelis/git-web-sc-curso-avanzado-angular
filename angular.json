@@ -4,6 +4,12 @@
   "newProjectRoot": "projects",
   "projects": {
     "intermedio": {
+      "i18n": {
+          "sourceLocale": "es",
+          "locales": {
+            "en": "src/locales/messages.en.xlf"
+          }
+      },
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,6 +19,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize": true,
+            "aot": true,
             "outputPath": "dist/intermedio",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -55,6 +63,12 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "es": {
+              "localize" : ["es"]
+            },
+            "en" : {
+              "localize": ["en"]
             }
           },
           "defaultConfiguration": "production"
@@ -67,6 +81,12 @@
             },
             "development": {
               "browserTarget": "intermedio:build:development"
+            },
+            "es": {
+              "browserTarget": "intermedio:build:es"
+            },
+            "en": {
+              "browserTarget": "intermedio:build:en"
             }
           },
           "defaultConfiguration": "development"

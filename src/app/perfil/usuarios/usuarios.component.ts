@@ -89,7 +89,7 @@ export class UsuariosComponent implements OnInit {
           });
   
           this.displayedColumns = this.displayedColumns.filter((e: any) => {
-            if(this.usuario.permisos.find((x: any) => x.id == 10) != undefined) {
+            if(this.usuario.permisos && this.usuario.permisos.find((x: any) => x.id == 10) != undefined) {
               return e != 'editar';
             }
             return true;

@@ -4,6 +4,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { Perfil } from '../dominio/perfil';
 import Swal from 'sweetalert2';
 import { AuthService } from '../servicios/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-perfil',
@@ -13,7 +14,8 @@ import { AuthService } from '../servicios/auth.service';
 export class PerfilComponent implements OnInit {
 
   constructor(
-    private auth: AuthService
+    private auth: AuthService,
+    private toastr: ToastrService
   ){}
 
   modificado: boolean = false;
@@ -88,6 +90,7 @@ export class PerfilComponent implements OnInit {
                   });
                   sessionStorage.setItem('perfil', JSON.stringify(resultado));
                   this.perfilForm.patchValue(resultado);
+                  this.toastr.success('Cambios guardados');
                 }
               })
             }

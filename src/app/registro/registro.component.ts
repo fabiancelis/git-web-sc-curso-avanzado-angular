@@ -97,6 +97,10 @@ export class RegistroComponent implements OnInit {
       })
     }
   }
+
+  show(value: string) {
+    alert(value);
+  }
 }
 
 export class passwordErrorStateMatcher implements ErrorStateMatcher {

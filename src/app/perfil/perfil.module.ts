@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
   declarations: [
     PerfilComponent,
     LoginComponent,
-    UsuariosComponent
+    UsuariosComponent,
   ],
   imports: [
     CommonModule,
@@ -29,7 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
     FormsModule,
     MatTableModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
   ]
 })
 export class PerfilModule { }
