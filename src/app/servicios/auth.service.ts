@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environmet } from 'src/environments/environemt.development';
-import { shareReplay } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+    usuarios$!: Observable<any[]>;
 
   constructor(
     private http: HttpClient,
@@ -26,8 +27,13 @@ export class AuthService {
   }
 
   findPerfil() {
-    return this.http.post(environmet.API+'consulta/usuarios', {})
-      .pipe(shareReplay(100));
+
+    if(!this.usuarios$) {
+      this.usuarios$ = this.http.post<any[]>(environmet.API+'consulta/usuarios', {})
+      .pipe(shareReplay(1));
+    }
+
+    return this.usuarios$;
   } 
 
   refreshToken(payload: any) {
