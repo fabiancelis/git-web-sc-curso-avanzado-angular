@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { Perfil } from '../dominio/perfil';
 import Swal from 'sweetalert2';
-import { AuthService } from '../servicios/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Perfil } from '@@dominio';
+import { AuthService } from '@@servicios';
 
 @Component({
   selector: 'app-perfil',

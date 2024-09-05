@@ -1,5 +1,5 @@
+import { LoaderService } from '@@servicios';
 import { Component, OnInit } from '@angular/core';
-import { LoaderService } from './servicios/loader.service';
 import { delay } from 'rxjs';
 
 @Component({
@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   loading: boolean = false;
 
   constructor(
-    private _loader: LoaderService 
+    private _loader: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   listenToLoading(): void {
     this._loader.loadingSub
       .pipe(delay(0))
-      .subscribe((loading) => {
+      .subscribe((loading: any) => {
         this.loading = loading;
       })
   }

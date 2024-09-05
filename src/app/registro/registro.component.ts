@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../servicios/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Perfil } from '@@dominio';
+import { AuthService } from '@@servicios';
 
 @Component({
   selector: 'app-registro',
@@ -91,7 +92,7 @@ export class RegistroComponent implements OnInit {
       };
 
       this.auth.insertPerfil(usuario).subscribe({
-        next: (value) => {
+        next: (value: any) => {
           this.toastr.success('Usiario guardado exitosamente')
         },
       })

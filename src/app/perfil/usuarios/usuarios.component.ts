@@ -1,9 +1,9 @@
+import { Perfil } from '@@dominio';
+import { AuthService } from '@@servicios';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
-import { Perfil } from 'src/app/dominio/perfil';
-import { AuthService } from 'src/app/servicios/auth.service';
 
 const SCHEMA_TABLE = [
   {
@@ -81,10 +81,12 @@ export class UsuariosComponent implements OnInit {
     //   this.toastr.warning('Su sesion ha caducado');
     // } 
     // else {
+
+    this.dataSource = [];
       this.auth.findPerfil().subscribe({
         next:(value) => {
           
-          JSON.parse(value.toString()).map((x: any )=> {
+          JSON.parse(value.toString()).map((x: Perfil )=> {
             this.dataSource.push(x);
           });
   

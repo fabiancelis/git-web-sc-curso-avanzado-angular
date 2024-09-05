@@ -1,8 +1,8 @@
+import { Usuario } from '@@dominio';
+import { AuthService } from '@@servicios';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Usuario } from 'src/app/dominio/usuario';
-import { AuthService } from 'src/app/servicios/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +30,7 @@ export class LoginComponent {
             sessionStorage.setItem('jwt', value['jwt']);
             sessionStorage.setItem('refreshToken', value['refreshToken']);
             sessionStorage.setItem('perfil', JSON.stringify(value['perfil']));
+            //TODO: obtener la ruta de la respuesta del servicio
             this.router.navigateByUrl('perfil');
           }
           else {

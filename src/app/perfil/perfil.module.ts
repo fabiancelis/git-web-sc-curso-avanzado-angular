@@ -7,16 +7,15 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { routes } from './perfil-routing.module';
-import { LoginComponent } from './login/login.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginComponent } from '@@auth-lib';
 
 @NgModule({
   declarations: [
     PerfilComponent,
-    LoginComponent,
     UsuariosComponent,
   ],
   imports: [

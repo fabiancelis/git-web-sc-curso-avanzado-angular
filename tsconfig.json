@@ -4,6 +4,17 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "@@dominio": [
+        "dist/dominio"
+      ],
+      "@@servicios": [
+        "dist/servicios"
+      ],
+      "@@auth-lib": [
+        "dist/auth-lib"
+      ]
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
